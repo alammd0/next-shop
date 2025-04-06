@@ -67,7 +67,7 @@ export const NEXT_AUTH_CONFIG = {
         },
 
         pages: {
-            signIn: "/signin",
+            signIn: "/auth/login",
         }
     }
 };

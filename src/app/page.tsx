@@ -1,6 +1,6 @@
-import AppBar from "./components/AppBar";
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH_CONFIG } from "./lib/auth";
+import Navbar from "./components/common/Navbar";
 
 
 async function getUser() {
@@ -15,12 +15,7 @@ export default async function Home() {
 
   return (
     <div>
-      <AppBar />
-      {session ? (
-        <h1>hello {session.user?.name}</h1>
-      ) : (
-        <h1>hello guest</h1>
-      )}
+      <Navbar />
     </div>
   );
 }
