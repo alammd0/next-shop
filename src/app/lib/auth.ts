@@ -117,6 +117,7 @@ export const NEXT_AUTH_CONFIG = {
                 token.id = user.id;
                 token.email = user.email;
                 token.name = user.name;
+                token.role = user.role;
             }
             return token;
         },
@@ -125,6 +126,7 @@ export const NEXT_AUTH_CONFIG = {
                 session.user.id = token.id;
                 session.user.email = token.email;
                 session.user.name = token.name;
+                session.user.role = token.role;
             }
             return session;
         },
