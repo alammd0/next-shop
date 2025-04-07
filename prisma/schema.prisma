@@ -7,13 +7,28 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 // user model
 model User {
   id          Int      @id @default(autoincrement())
-  name        String
+  name        String?
   email       String?  @unique
   password    String?
   phoneNumber String?  @unique
+  role        Role     @default(USER)
   createdAt   DateTime @default(now())
+}
+
+// otp model
+model OTPRecord {
+  id          Int      @id @default(autoincrement())
+  phoneNumber String?  @unique
+  otp         String?
+  expireAt    DateTime
+  createdAt   DateTime @default(now())
+}
+
+enum Role {
+  USER
+  HOST
+  ADMIN
 }

@@ -3,7 +3,7 @@
 import { useSession, signOut } from "next-auth/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ShoppingCart, User } from "lucide-react"
+import { LogOut, ShoppingCart, User } from "lucide-react"
 
 const navItems = [
     {
@@ -45,7 +45,7 @@ export default function Navbar() {
                         </Link>
                     </div>
 
-                    <div className="flex gap-6 items-center justify-center">
+                    <div className="flex gap-6  items-center justify-center">
                         {
                             navItems.map((item: any) => (
                                 <div key={item.id} className="hover:text-gray-800 hover:cursor-pointer font-medium text-center text-[17px]">
@@ -67,17 +67,20 @@ export default function Navbar() {
                         </Link>
                     </div>
 
-                    <div className="flex gap-2">
+                    <div className="flex items-center justify-center gap-2">
                         {
                             session ? (
-                                <div>
+                                <div className="flex items-center gap-5">
                                     <div>
                                         <Link href={"/profile"}>
                                             <User className="w-5 h-5" />
-                                            <span className="hidden sm:inline">Profile</span>
                                         </Link>
                                     </div>
-                                    <div><button onClick={() => signOut()}>Logout</button></div>
+                                    <div className="flex items-center justify-center cursor-pointer">
+                                        <button className="cursor-pointer" onClick={() => signOut()}>
+                                            <LogOut className="w-5 h-5" />
+                                        </button>
+                                    </div>
                                 </div>
 
                             ) : (

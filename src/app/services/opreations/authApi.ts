@@ -4,17 +4,17 @@ import { apiConnector } from "../apiconector"
 interface authFromData {
     name: string,
     email: string,
-    phoneNumber: string,
+    role: string,
     password: string
 }
 
 // function signup()
-export const signup = async ({ name, email, phoneNumber, password }: authFromData) => {
+export const signup = async ({ name, email, role, password }: authFromData) => {
     try {
         const res = await apiConnector("POST", "/auth/signup", {
             name,
             email,
-            phoneNumber,
+            role,
             password
         }, {
             "Content-Type": "application/json"
@@ -29,7 +29,7 @@ export const signup = async ({ name, email, phoneNumber, password }: authFromDat
 }
 
 // function login()
-export const login = async ({ email, password } : { email: string, password: string }) => {
+export const login = async ({ email, password }: { email: string, password: string }) => {
     try {
         const response = await apiConnector("POST", "/auth/login", {
             email,
@@ -38,7 +38,7 @@ export const login = async ({ email, password } : { email: string, password: str
             "Content-Type": "application/json"
         });
 
-        console.log("Here -> " ,response.data);
+        console.log("Here -> ", response.data);
         return response
     }
     catch (err) {

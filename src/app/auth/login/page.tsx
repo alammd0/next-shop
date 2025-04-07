@@ -1,14 +1,12 @@
 'use client'
 
 import { Authfrom } from "@/app/components/core/Auth/Authfrom"
-import { Authimage } from "@/app/components/core/Auth/Authimage"
 
 export default function Login() {
     return (
-        <div>
-            <div>
+        <div className=" bg-slate-300 flex items-center justify-center h-screen">
+            <div className="max-w-[1280px] mx-auto flex justify-center gap-11 items-center bg-slate-600 px-10 py-12 rounded-md">
                 <Authfrom type="login" />
-                <Authimage type="login" />
             </div>
         </div>
     )

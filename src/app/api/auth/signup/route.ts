@@ -5,9 +5,9 @@ import { hash } from "bcryptjs";
 export async function POST(req: Request) {
     try {
 
-        const { name, email, password } = await req.json();
+        const { name, email, password, role } = await req.json();
 
-        if (!name || !email || !password) {
+        if (!name || !email || !password || !role) {
             return NextResponse.json({
                 error: "Missing credentials",
                 message: "All fields are required"
@@ -35,6 +35,7 @@ export async function POST(req: Request) {
             data: {
                 name: name,
                 email: email,
+                role: role,
                 password: hashPassword
             }
         });

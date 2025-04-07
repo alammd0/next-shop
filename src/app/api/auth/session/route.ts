@@ -6,6 +6,6 @@ export async function GET() {
     const session = await getServerSession(NEXT_AUTH_CONFIG);
     console.log(session);
     return NextResponse.json({
-        name: session?.user?.name
+        user: session?.user
     })
 }
