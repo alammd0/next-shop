@@ -19,7 +19,7 @@ import { SkeletonDemo } from "../../common/SkeletonCard";
 import toast from "react-hot-toast";
 
 interface AuthProps {
-    type: "login" | "signup"
+    type: "login" | "signup";
 }
 
 type AuthFormData = {
@@ -217,7 +217,7 @@ export const Authfrom = ({ type }: AuthProps) => {
                             )
                         }
                     </Link>
-                    <Link href={`/auth/${type === "signup" ? "phone-signup" : "reset-password"}`} className="text-sm text-slate-50 hover:underline">{
+                    <Link href={`/auth/${type === "signup" ? "phone-signin" : "reset-password"}`} className="text-sm text-slate-50 hover:underline">{
                         type === "signup" ? (
                             "Create Account Using Phone Number ? "
                         ) : (

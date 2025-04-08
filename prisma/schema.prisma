@@ -18,13 +18,39 @@ model User {
   createdAt   DateTime @default(now())
 }
 
-// otp model
+// otp model (Coming Soon)
 model OTPRecord {
   id          Int      @id @default(autoincrement())
   phoneNumber String?  @unique
   otp         String?
   expireAt    DateTime
   createdAt   DateTime @default(now())
+}
+
+
+model Product {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Float
+  quantity    Int
+  images      Image[] // one-to-many relation
+  sizes       String[] // stores multiple sizes like ["S", "M", "L"]
+  category    Category @relation(fields: [categoryId], references: [id])
+  categoryId  Int
+}
+
+model Image {
+  id        Int     @id @default(autoincrement())
+  url       String
+  product   Product @relation(fields: [productId], references: [id])
+  productId Int
+}
+
+model Category {
+  id       Int       @id @default(autoincrement())
+  name     String
+  products Product[]
 }
 
 enum Role {

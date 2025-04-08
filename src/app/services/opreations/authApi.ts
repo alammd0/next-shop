@@ -1,4 +1,3 @@
-import { headers } from "next/headers";
 import { apiConnector } from "../apiconector"
 
 interface authFromData {
@@ -45,3 +44,21 @@ export const login = async ({ email, password }: { email: string, password: stri
         console.log(err);
     }
 }
+
+// function to send Otp 
+export const sendOtp = async ({ phoneNumber, name }: { phoneNumber: string, name: string }) => {
+    try {
+        const response = await apiConnector("POST", "/send-otp", {
+            name: name,
+            phoneNumber: phoneNumber,
+        }, {
+            "Content-Type": "application/json",
+        });
+
+        return response;
+    } catch (error) {
+        console.error("OTP Send Error: Missing credentials", error);
+        throw error;
+    }
+};
+

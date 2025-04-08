@@ -121,6 +121,7 @@ export const NEXT_AUTH_CONFIG = {
             }
             return token;
         },
+        
         session: ({ session, token }: any) => {
             if (session.user) {
                 session.user.id = token.id;
