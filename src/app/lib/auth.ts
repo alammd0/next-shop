@@ -13,6 +13,7 @@ export const NEXT_AUTH_CONFIG = {
                 password: { label: "Password", type: "password" },
             },
 
+
             async authorize(credentials): Promise<any> {
                 const { email, password } = credentials as
                     { email: string, password: string };
@@ -40,77 +41,16 @@ export const NEXT_AUTH_CONFIG = {
                     id: user.id,
                     email: user.email,
                     name: user.name,
-                    username: user.phoneNumber
+                    role: user.role
                 };
             },
 
         }),
 
-        // sgnin with phone number
-        CredentialsProvider({
-            name: "Phone OTP",
-            credentials: {
-                name: { label: "Name", type: "text" },
-                phoneNumber: { label: "Phone Number", type: "tel" },
-                otp: { label: "OTP", type: "number" },
-            },
-            async authorize(credentials): Promise<any> {
-                const { phoneNumber, otp, name } = credentials as
-                    { phoneNumber: string, otp: string, name: string };
-
-                // find user exit or not 
-                const user = await prisma.user.findUnique({
-                    where: {
-                        phoneNumber: phoneNumber
-                    }
-                })
-
-                if (!user) {
-                    throw new Error("User not found");
-                }
-
-                // find OPT using Phone Number
-                const otpRecord = await prisma.oTPRecord.findUnique({
-                    where: {
-                        phoneNumber: phoneNumber
-                    }
-                });
-
-                // if OTP not found
-                if (!otpRecord) {
-                    throw new Error("OTP not found, Please try again");
-                }
-
-                // check OTP
-                if (otpRecord.otp !== otp) {
-                    throw new Error("Invalid OTP");
-                }
-
-                // check OTP expire or not 
-                if (otpRecord.expireAt < new Date()) {
-                    throw new Error("OTP expired, Please try again");
-                }
-
-                // create User
-                const newUser = await prisma.user.create({
-                    data: {
-                        name: name,
-                        phoneNumber: phoneNumber
-                    }
-                })
-
-                // return data
-                return {
-                    id: newUser.id,
-                    name: newUser.name,
-                    username: newUser.phoneNumber
-                }
-            }
-        })
-
     ],
 
     secret: process.env.NEXTAUTH_SECRET,
+
     callbacks: {
         jwt: async ({ token, user }: any) => {
             if (user) {
@@ -119,21 +59,24 @@ export const NEXT_AUTH_CONFIG = {
                 token.name = user.name;
                 token.role = user.role;
             }
+            console.log("Token: ", token);
             return token;
         },
-        
-        session: ({ session, token }: any) => {
+
+        session: async ({ session, token }: any) => {
             if (session.user) {
                 session.user.id = token.id;
                 session.user.email = token.email;
                 session.user.name = token.name;
                 session.user.role = token.role;
             }
+            console.log("session: ", session);
+            console.log("User ID", session.user.id);
             return session;
-        },
-
-        pages: {
-            signIn: "/auth/login",
         }
+    },
+
+    pages: {
+        signIn: "/auth/login",
     }
 };

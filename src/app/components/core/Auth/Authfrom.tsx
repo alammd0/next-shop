@@ -63,6 +63,8 @@ export const Authfrom = ({ type }: AuthProps) => {
                 console.log(res.error);
                 toast.error("User Already Exits")
             }
+
+            console.log("User Details : " + res);
             Setloading(false);
             toast.success("User Login Seccesfully")
             redirect("/auth/login");
@@ -80,6 +82,7 @@ export const Authfrom = ({ type }: AuthProps) => {
             } else {
                 redirect("/");
             }
+            console.log("Login successful" + res);
             Setloading(false)
             toast.success("User Login seccesfully");
             console.log("Login successful");

@@ -7,15 +7,17 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// user model
+// model
 model User {
-  id          Int      @id @default(autoincrement())
-  name        String?
-  email       String?  @unique
-  password    String?
-  phoneNumber String?  @unique
-  role        Role     @default(USER)
-  createdAt   DateTime @default(now())
+  id        Int         @id @default(autoincrement())
+  name      String
+  email     String      @unique
+  password  String
+  role      Role        @default(USER)
+  createdAt DateTime    @default(now())
+  Booking   Booking[]
+  Product   Product[]
+  ratAndRev RatAndRev[]
 }
 
 // otp model (Coming Soon)
@@ -27,30 +29,79 @@ model OTPRecord {
   createdAt   DateTime @default(now())
 }
 
-
 model Product {
-  id          Int      @id @default(autoincrement())
-  title       String
-  description String
-  price       Float
-  quantity    Int
-  images      Image[] // one-to-many relation
-  sizes       String[] // stores multiple sizes like ["S", "M", "L"]
-  category    Category @relation(fields: [categoryId], references: [id])
-  categoryId  Int
+  id        Int         @id @default(autoincrement())
+  title     String
+  smallDesc String
+  desc      String
+  price     Float
+  salePrice Float
+  size      Size
+  status    Status
+  category  Category
+  userId    Int
+  user      User        @relation(fields: [userId], references: [id])
+  image     Image[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  RatAndRev RatAndRev[]
+  Booking   Booking[]
 }
 
 model Image {
   id        Int     @id @default(autoincrement())
   url       String
-  product   Product @relation(fields: [productId], references: [id])
+  alt       String?
   productId Int
+  Product   Product @relation(fields: [productId], references: [id])
 }
 
-model Category {
-  id       Int       @id @default(autoincrement())
-  name     String
-  products Product[]
+model RatAndRev {
+  id        Int      @id @default(autoincrement())
+  rating    Float
+  review    String
+  createdAt DateTime @default(now())
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  productId Int
+  Product   Product  @relation(fields: [productId], references: [id])
+}
+
+model Booking {
+  id            Int           @id @default(autoincrement())
+  userId        Int?
+  user          User?         @relation(fields: [userId], references: [id])
+  productId     Int
+  product       Product       @relation(fields: [productId], references: [id])
+  date          DateTime
+  price         Float
+  bookingStatus BookingStatus @default(PENDING)
+  status        String        @default("pending")
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  REJECTED
+}
+
+// enums
+enum Category {
+  ALL
+  MAN
+  WOMAN
+}
+
+enum Size {
+  S
+  M
+  L
+}
+
+enum Status {
+  IN_STOCK
+  OUT_OF_STOCK
+  DISCONTINUED
 }
 
 enum Role {

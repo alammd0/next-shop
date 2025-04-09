@@ -5,7 +5,6 @@ import prisma from "@/app/lib/prisma";
 import { sendOTP } from "@/app/utils/send-otp";
 import { generateOTPMessage } from "@/app/template/senSMS-template";
 
-
 export async function POST(req: NextRequest) {
     try {
 
