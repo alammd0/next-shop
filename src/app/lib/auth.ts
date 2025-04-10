@@ -1,6 +1,7 @@
 import CredentialsProvider from "next-auth/providers/credentials";
 import prisma from "./prisma";
 import bcrypt from "bcryptjs";
+import { SessionStrategy } from "next-auth";
 
 
 export const NEXT_AUTH_CONFIG = {
@@ -51,15 +52,22 @@ export const NEXT_AUTH_CONFIG = {
 
     secret: process.env.NEXTAUTH_SECRET,
 
+    session: {
+        strategy: "jwt" as SessionStrategy,
+    },
+
     callbacks: {
         jwt: async ({ token, user }: any) => {
+
+            console.log("Token", token);
+
             if (user) {
                 token.id = user.id;
+                console.log("User ID: ", token);
                 token.email = user.email;
                 token.name = user.name;
                 token.role = user.role;
             }
-            console.log("Token: ", token);
             return token;
         },
 

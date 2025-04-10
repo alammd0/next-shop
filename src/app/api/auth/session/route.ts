@@ -1,11 +1,10 @@
-import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
 import { getServerSession } from "next-auth"
 import { NextResponse } from "next/server";
+import { authOptions } from "../[...nextauth]/route";
 
 export async function GET() {
-    const session = await getServerSession(NEXT_AUTH_CONFIG);
-    console.log(session);
+    const session = await getServerSession(authOptions);
     return NextResponse.json({
-        user: session?.user
+        user: session.user
     })
 }

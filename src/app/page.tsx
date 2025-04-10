@@ -1,21 +1,19 @@
-import { getServerSession } from "next-auth";
-import { NEXT_AUTH_CONFIG } from "./lib/auth";
+"use client"
+
+import { redirect } from "next/navigation";
 import Navbar from "./components/common/Navbar";
+import { useSession } from "next-auth/react";
 
 
-async function getUser() {
-  const session = await getServerSession(NEXT_AUTH_CONFIG);
-  return session;
-}
+export default function Home() {
 
+  const { data: session } = useSession()
+  console.log(session);
+  const user = session?.user as { role: string };
 
-export default async function Home() {
-
-  const session = await getUser();
-
-  return (
-    <div>
-      <Navbar />
-    </div>
-  );
+  if (user?.role === "HOST") {
+    redirect("/host/dashboard");
+  } else {
+    redirect("/home")
+  }
 }

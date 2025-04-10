@@ -79,13 +79,13 @@ export const Authfrom = ({ type }: AuthProps) => {
             if (res?.error) {
                 console.log("Login failed:", res.error);
                 toast.error("Login Failed")
+                redirect("/auth/login");
             } else {
-                redirect("/");
+                Setloading(false)
+                toast.success("User Login seccesfully");
+                redirect("/home");
             }
-            console.log("Login successful" + res);
-            Setloading(false)
-            toast.success("User Login seccesfully");
-            console.log("Login successful");
+
         }
     };
 

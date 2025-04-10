@@ -4,18 +4,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { propertySchema } from "@/app/lib/zod/property";
 import prisma from "@/app/lib/prisma";
 import { Category, Size, Status } from "@prisma/client";
-import { authOptions } from "../auth/[...nextauth]/route";
-import { getServerSession } from "next-auth";
+import { getToken } from "next-auth/jwt";
 
 
 // Create product
 export async function POST(req: NextRequest) {
     try {
-
-        const session = await getServerSession(authOptions);
-
-        console.log("SESSION:", session);  // ✅ Check what's coming
-        const userId = session?.user?.id;
+        const token = await getToken({ req });
+        const userId = token?.id;
 
         if (!userId) {
             return new NextResponse("Unauthorized: No user ID", { status: 401 });
@@ -80,7 +76,7 @@ export async function POST(req: NextRequest) {
                 size,
                 status,
                 category,
-                userId,
+                userId : Number(userId),
                 image: {
                     createMany: {
                         data: images,
